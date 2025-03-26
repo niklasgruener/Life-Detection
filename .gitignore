@@ -8,7 +8,9 @@ tristar.zip
 datasets.zip
 
 # Ignore dataset folders
-depth/
-rgb/
+depth/data/
+rgb/data/
 masks/
-thermal/
+thermal/data/
+labels/
+
