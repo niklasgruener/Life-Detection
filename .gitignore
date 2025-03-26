@@ -3,3 +3,12 @@ tristar/
 
 # Ignore the tristar.zip file
 tristar.zip
+
+# Ignore dataset zip file
+datasets.zip
+
+# Ignore dataset folders
+depth/
+rgb/
+masks/
+thermal/
