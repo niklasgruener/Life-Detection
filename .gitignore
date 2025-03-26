@@ -1,0 +1,5 @@
+# Ignore the tristar directory
+tristar/
+
+# Ignore the tristar.zip file
+tristar.zip
