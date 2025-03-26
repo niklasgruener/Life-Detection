@@ -1,6 +1,5 @@
-path: ./depth  
-train: images/train
-val: images/val
+train: data/images/train
+val: data/images/val
 
 nc: 1
 names: ['person']
