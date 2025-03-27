@@ -7,6 +7,6 @@ model.train(
     data = 'data.yaml',
     epochs = 50,
     imgsz=640,
-    batch=64,
+    batch=32,
     device=0
 )
