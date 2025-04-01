@@ -16,6 +16,6 @@ for r in results:
     plotted_img = r.plot()  
 
 # Save the result
-output_path = "pred_image.jpg"
+output_path = "pred_image.png"
 cv2.imwrite(output_path, plotted_img)
 print(f"Saved: {output_path}")
