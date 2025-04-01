@@ -5,8 +5,8 @@ import cv2
 model = YOLO("runs/detect/depth/weights/best.pt")
 
 # Load video
-input_video_path = "video.mp4"         # 🔁 Your input video
-output_video_path = "output_predicted.mp4"   # 🔁 Output path
+input_video_path = "input_video.mp4"     
+output_video_path = "output_video.mp4"  
 
 cap = cv2.VideoCapture(input_video_path)
 
@@ -16,7 +16,7 @@ width  = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
 # Define output video writer
-fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # or use 'XVID'
+fourcc = cv2.VideoWriter_fourcc(*'mp4v')
 out = cv2.VideoWriter(output_video_path, fourcc, fps, (width, height))
 
 frame_count = 0
@@ -26,12 +26,8 @@ while cap.isOpened():
     if not ret:
         break
 
-    # Convert grayscale to RGB if needed
-    # if len(frame.shape) == 2 or frame.shape[2] == 1:
-    #    frame = cv2.cvtColor(frame, cv2.COLOR_GRAY2RGB)
-
     # Run inference
-    results = model.predict(source=frame, save=False, device=0)  # use 'cpu' if needed
+    results = model.predict(source=frame, save=False, device=0)
 
     # Draw bounding boxes
     for r in results:
@@ -46,4 +42,4 @@ while cap.isOpened():
 # Cleanup
 cap.release()
 out.release()
-print(f"\n✅ Done! Saved to: {output_video_path}")
+print(f"\nDone! Saved to: {output_video_path}")
