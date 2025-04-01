@@ -3,10 +3,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Paths to your images and the bounding box txt file
-depth_image_path = 'depth/data/images/train/0_000000_0000000286.png'
-rgb_image_path = 'rgb/data/images/train/0_000000_0000000286.png'
-thermal_image_path = 'thermal/data/images/train/0_000000_0000000286.png'
-bbox_txt_path = 'rgb/data/labels/train/0_000000_0000000286.txt'
+depth_image_path = '../depth/data/images/train/0_000000_0000000286.png'
+rgb_image_path = '../rgb/data/images/train/0_000000_0000000286.png'
+thermal_image_path = '../thermal/data/images/train/0_000000_0000000286.png'
+bbox_txt_path = '../rgb/data/labels/train/0_000000_0000000286.txt'
 
 # Boolean flag: if True, write figure to disk; if False, display the figure.
 write_to_disk = True  # Set to False to display instead of saving

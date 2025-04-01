@@ -4,7 +4,7 @@ from ultralytics import YOLO
 from deep_sort_realtime.deepsort_tracker import DeepSort
 from collections import defaultdict
 
-# Initialize YOLOv5
+# Initialize YOLO
 model = YOLO("depth/runs/detect/train3/weights/best.pt")
 
 # Initialize Deep SORT

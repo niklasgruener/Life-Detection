@@ -3,7 +3,7 @@ import os
 import cv2
 
 # Paths
-mask_dir = "masks/val"     # Folder with .npy mask files
+mask_dir = "../masks/val"     # Folder with .npy mask files
 output_dir = "labels/val"  # Where to save .txt annotation files
 image_shape = (480, 640)        # Replace with (height, width) of original images
 
