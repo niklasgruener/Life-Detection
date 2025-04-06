@@ -2,10 +2,10 @@ from ultralytics import YOLO
 import cv2
 
 # Load your trained model
-model = YOLO("rgb/runs/detect/train/weights/best.pt")
+model = YOLO("rgb/runs/detect/train3/weights/best.pt")
 
 # Load image
-img_path = "image2.png" 
+img_path = "test1/rgb/rgb_00071.png" 
 img = cv2.imread(img_path)
 
 # Run inference

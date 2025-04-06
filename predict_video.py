@@ -2,11 +2,11 @@ from ultralytics import YOLO
 import cv2
 
 # Load trained YOLOv8 model
-model = YOLO("runs/detect/depth/weights/best.pt")
+model = YOLO("rgb/runs/detect/train/weights/best.pt")
 
 # Load video
-input_video_path = "input_video.mp4"     
-output_video_path = "output_video.mp4"  
+input_video_path = "input_video_rgb.mp4"     
+output_video_path = "output_video_rgb.mp4"  
 
 cap = cv2.VideoCapture(input_video_path)
 

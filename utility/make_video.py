@@ -2,8 +2,8 @@ import cv2
 import os
 
 # Set the path to your frames and output video
-frames_folder = 'tristar/train/0/thermal'
-output_video_path = 'input_video.mp4'
+frames_folder = 'tristar/test/17/thermal'
+output_video_path = 'input_video2_thermal.mp4'
 frame_rate = 7  # frames per second
 
 # Get a sorted list of image files

@@ -14,3 +14,9 @@ masks/
 thermal/data/
 labels/
 
+# ignore sort library
+sort/
+
+# ignore pycache
+__pycache__
+
