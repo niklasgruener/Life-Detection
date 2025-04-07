@@ -1,12 +1,34 @@
 from ultralytics import YOLO
 
+# Custom run names and their corresponding batch sizes
+run_configs = [
+    ("train_yolov11_1", 64),
+    ("train_yolov11_2", 32),
+    ("train_yolov11_3", 16)
+]
 
-model = YOLO('yolov8n.pt') # load pretrained YOLO model
+for run_name, batch_size in run_configs:
+    model = YOLO('yolo11n.pt')  # Load YOLOv11n base model
+    model.train(
+        data='data.yaml',
+        epochs=50,
+        imgsz=640,
+        batch=batch_size,
+        device=0,
+        name=run_name
+    )
 
-model.train(
-    data = 'data.yaml',
-    epochs = 50,
-    imgsz=640,
-    batch=16,
-    device=0
-)
+
+############YOLOV8############
+#from ultralytics import YOLO
+
+
+#model = YOLO('yolov8n.pt') # load pretrained YOLO model
+
+#model.train(
+#    data = 'data.yaml',
+#    epochs = 50,
+#    imgsz=640,
+#    batch=16,
+#    device=0
+#)
