@@ -2,7 +2,7 @@ import os
 import pandas as pd
 
 # List of training run directories
-run_dirs = ['../rgb/runs/detect/train', '../rgb/runs/detect/train2', '../rgb/runs/detect/train3']
+run_dirs = ['../thermal/runs/detect/train_yolov11_1', '../thermal/runs/detect/train_yolov11_2', '../thermal/runs/detect/train_yolov11_3']
 
 best_run = None
 best_overall_value = float('-inf')
