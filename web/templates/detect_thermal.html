@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Thermal-based Life Detection</title>
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div>
+        <h1>Thermal-based Life Detection</h1>
+        <div class="select-wrapper">
+            <label for="modality-select">Select Method:</label>
+            <select id="modality-select">
+                <option value="mean">Mean</option>
+                <option value="median">Median</option>
+                <option value="center">Center</option>
+            </select>
+        </div>
+        <img src="/detect-motion-stream">
+        <a href="detect-motion">Switch to Motion-based</a>
+    </div>
+</body>
+</html>
