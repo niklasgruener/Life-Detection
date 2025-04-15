@@ -20,3 +20,6 @@ sort/
 # ignore pycache
 __pycache__
 
+
+# ignore NEW
+NEW/
