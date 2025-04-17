@@ -2,8 +2,8 @@ import cv2
 import os
 
 # Set the path to your frames and output video
-frames_folder = 'tristar/test/17/thermal'
-output_video_path = 'input_video2_thermal.mp4'
+frames_folder = 'test/'
+output_video_path = 'input_video_NEW_depth.mp4'
 frame_rate = 7  # frames per second
 
 # Get a sorted list of image files

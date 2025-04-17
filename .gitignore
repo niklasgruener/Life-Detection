@@ -13,6 +13,7 @@ rgb/data/
 masks/
 thermal/data/
 labels/
+labels.old/
 
 # ignore sort library
 sort/
@@ -22,4 +23,6 @@ __pycache__
 
 
 # ignore NEW
-NEW/
+NEW/yolo/depth/data/
+NEW/yolo/thermal/data/
+

@@ -3,7 +3,7 @@ import numpy as np
 import os
 
 # Path to thermal image (grayscale)
-input_path = "assets/thermal2.png"
+input_path = "NEW/yolo/thermal/data/images/test/image_t_1000.png"
 output_path = "assets/thermal_normalized.png"
 
 # Load thermal image in grayscale

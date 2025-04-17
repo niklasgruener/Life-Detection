@@ -10,10 +10,10 @@ THERMAL_RAW_OFFSET = 27315  # raw value corresponding to 0°C
 THERMAL_RAW_SCALE  = 100     # raw units per C
 
 # --- Load your trained model ---
-model = YOLO("thermal/runs/detect/train3/weights/best.pt")
+model = YOLO("/home/ngruener/thesis/life_detection/NEW/yolo/thermal/runs/detect/train4/weights/best.pt")
 
 # --- Load images ---
-img_path = "assets/thermal.png"
+img_path = "NEW/yolo/thermal/data/images/test/image_t_1000.png"
 # Load a conventional BGR image for inference & plotting.
 color_img = cv2.imread(img_path)
 if color_img is None:

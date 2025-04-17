@@ -2,10 +2,10 @@ from ultralytics import YOLO
 import cv2
 
 # Load your trained model
-model = YOLO("best.pt")
+model = YOLO("/home/ngruener/thesis/life_detection/NEW/yolo/thermal/runs/detect/train2/weights/best.pt")
 
 # Load image
-img_path = "assets/thermal2.png" 
+img_path = "/home/ngruener/thesis/life_detection/test2/thermal_000114_0000013465.png" 
 img = cv2.imread(img_path)
 
 # Run inference
