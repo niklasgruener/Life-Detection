@@ -1,5 +1,0 @@
-train: /home/ngruener/thesis/life_detection/rgb/data/images/train
-val: /home/ngruener/thesis/life_detection/rgb/data/images/val
-
-nc: 1
-names: ['person']
