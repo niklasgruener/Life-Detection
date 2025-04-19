@@ -8,5 +8,6 @@ model.train(
     epochs = 50,
     imgsz=640,
     batch=64,
-    device=0
+    device=0,
+    name="thermal_yolo11n"
 )
