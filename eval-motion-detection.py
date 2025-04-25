@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 from ultralytics import YOLO
 
-def process_folder(
+def eval(
     folder_path,
     output_folder,
     model_path='yolo11.pt',
@@ -51,6 +51,7 @@ def process_folder(
     results = model.track(
         source=images,
         conf=conf_threshold,
+        iou=0.5,
         show=False,
         save=False,
         persist=True
@@ -157,7 +158,7 @@ if __name__ == '__main__':
     parser.add_argument('--conf_thresh', type=float, default=0.25, help='Confidence threshold for YOLO detections (0-1)')
     args = parser.parse_args()
 
-    process_folder(
+    eval(
         folder_path=args.folder,
         output_folder=args.output,
         model_path=args.model,
