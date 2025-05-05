@@ -1,19 +1,12 @@
 import os
 import argparse
+import csv
+import pandas as pd
 
 import cv2
 import numpy as np
 from ultralytics import YOLO
 from matplotlib import cm
-
-#def apply_custom_colormap(frame: np.ndarray, cmap_name: str) -> np.ndarray:
-#    """Normalize and apply a matplotlib colormap, return BGR image."""
-#    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-#    norm = cv2.normalize(gray.astype('float32'), None, 0.0, 1.0, cv2.NORM_MINMAX)
-#    cmap = cm.get_cmap(cmap_name)
-#    colored = (cmap(norm)[:, :, :3] * 255).astype(np.uint8)
-#    return cv2.cvtColor(colored, cv2.COLOR_RGB2BGR)
-
 
 
 def normalize(frame):
@@ -61,7 +54,7 @@ def eval(
 
 
     prev_boxes = {}          # last-frame boxes {track_id: (cx,cy,w,h)}
-    moving_flags = {}     # per-frame movement boolean
+    movement_log = []
 
     # load frame one by one (to avoid memory overflow)
     for idx, img_path in enumerate(file_paths):
@@ -111,6 +104,13 @@ def eval(
             # Update memory
             prev_boxes[track_id] = (cx, cy, w, h)
 
+            # log
+            movement_log.append({
+                'frame': idx,
+                'track_id': track_id,
+                'moving': int(moving)
+            })
+
             # Draw results 
             label = f"Victim {track_id} {'(Moving)' if moving else '(Still)'}"
             color = (0, 255, 0) if moving else (0, 0, 255)
@@ -130,6 +130,16 @@ def eval(
         
         out_path = os.path.join(output_folder, f"{idx}.png")
         cv2.imwrite(out_path, colored)
+
+
+    csv_path = os.path.join(output_folder, 'movement_log.csv')
+    with open(csv_path, 'w', newline='') as f:
+        writer = csv.DictWriter(f, fieldnames=['frame','track_id','moving'])
+        writer.writeheader()
+        writer.writerows(movement_log)
+    print(f"Movement log saved to {csv_path}")
+
+    
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Detect and record movement using YOLO tracking')
