@@ -145,7 +145,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Detect and record movement using YOLO tracking')
     parser.add_argument('--folder', required=True, help='Input image directory')
     parser.add_argument('--output', default='output', help='Annotated output directory')
-    parser.add_argument('--model', default='yolo11.pt', help='YOLO weights file')
+    parser.add_argument('--model', default='yolo11n.pt', help='YOLO weights file')
     parser.add_argument('--pos_thresh', type=float, default=10.0, help='Pixel threshold for bbox center movement')
     parser.add_argument('--size_thresh', type=float, default=10.0, help='Pixel threshold for bbox size change')
     parser.add_argument('--colormap', default=None, help='Colormap for colorizing thermal and depth images')
