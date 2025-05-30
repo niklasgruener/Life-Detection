@@ -13,7 +13,7 @@ cache: false
 device: 0
 workers: 8
 project: null
-name: depth_yolo11n
+name: thermal_yolo11n
 exist_ok: false
 pretrained: true
 optimizer: auto

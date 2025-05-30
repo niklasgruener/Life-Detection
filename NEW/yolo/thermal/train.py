@@ -9,5 +9,5 @@ model.train(
     imgsz=640,
     batch=64,
     device=0,
-    name="depth_yolo11n"
+    name="thermal_yolo11n"
 )
