@@ -26,3 +26,23 @@ __pycache__
 NEW/yolo/depth/data/
 NEW/yolo/thermal/data/
 
+# ignore temp folders 
+2/
+3/
+4/
+5/
+depthTest2/
+depthTest3/
+outRGB/
+outRGB4/
+outRGB5/
+slidesThermalOut/
+slidesThermalOut2/
+slides_thermal/
+test2/
+test3/
+yollo11n.pt
+
+
+
+
