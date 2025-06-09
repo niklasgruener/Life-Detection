@@ -9,9 +9,85 @@ from ultralytics import YOLO
 from matplotlib import cm
 
 
+
+
+##########################################################################################
+# PLOTTING results
+##########################################################################################
+
+import matplotlib.pyplot as plt
+import re
+
+def extract_timestamp(filename):
+    match = re.search(r'_(\d+)\.png', filename)
+    if match:
+        return int(match.group(1))
+    return None
+
+def plot_movement_log(csv_path, output_folder):
+    df = pd.read_csv(csv_path)
+
+    if df.empty:
+        print("CSV is empty!")
+        return
+
+    # Extract time from filename
+    df['timestamp'] = df['filename'].apply(extract_timestamp)
+
+    # Normalize time so first timestamp = 0
+    first_time = df['timestamp'].min()
+    df['time_sec'] = (df['timestamp'] - first_time) / 1000.0  # ms to sec
+
+    track_ids = df['track_id'].unique()
+    print(f"Plotting movement for {len(track_ids)} track_ids...")
+
+    plots_folder = os.path.join(output_folder, 'plots')
+    os.makedirs(plots_folder, exist_ok=True)
+
+    for track_id in track_ids:
+        df_track = df[df['track_id'] == track_id]
+
+        plt.figure(figsize=(12, 6))
+        plt.suptitle(f"Movement analysis - Track ID {track_id}", fontsize=16)
+
+        # Subplot 1: delta_pos
+        plt.subplot(3, 1, 1)
+        plt.plot(df_track['time_sec'], df_track['delta_pos'], label='delta_pos', color='blue')
+        plt.ylabel('Delta Position (px)')
+        plt.grid(True)
+        plt.legend()
+
+        # Subplot 2: delta_area
+        plt.subplot(3, 1, 2)
+        plt.plot(df_track['time_sec'], df_track['delta_area'], label='delta_area', color='orange')
+        plt.ylabel('Delta Area (relative)')
+        plt.grid(True)
+        plt.legend()
+
+        # Subplot 3: moving binary flag
+        plt.subplot(3, 1, 3)
+        plt.step(df_track['time_sec'], df_track['moving'], where='post', label='Moving', color='green')
+        plt.ylabel('Moving (0/1)')
+        plt.xlabel('Time (s)')
+        plt.grid(True)
+        plt.legend()
+
+        # Save plot
+        out_plot_path = os.path.join(plots_folder, f"movement_track_{track_id}.png")
+        plt.tight_layout(rect=[0, 0.03, 1, 0.95])
+        plt.savefig(out_plot_path)
+        plt.close()
+
+        print(f"Saved plot for track_id {track_id} to {out_plot_path}")
+
+
+##########################################################################################
+##########################################################################################
+##########################################################################################
+
 def normalize(frame):
     """Normalize by static number - convert from float16 to uint8"""
-    if (frame.ndim == 3):
+    if frame.ndim == 3:
         return frame
     
     frame = np.asarray(frame, dtype=np.float16)
@@ -35,11 +111,13 @@ def eval(
     output_folder,
     model_path='yolo11.pt',
     pos_threshold=5,
-    size_threshold=5,
-    colormap = None
+    area_threshold=0.05,
+    colormap=None,
+    debounce_window=3,
+    debounce_required=2
 ):
 
-    # load model and filenames
+    # Load model and filenames
     model = YOLO(model_path)
     file_paths = sorted(
         os.path.join(folder_path, f)
@@ -49,33 +127,37 @@ def eval(
     if not file_paths:
         raise ValueError(f'No images found in folder: {folder_path}')
 
-    # create an output diretory, if not exists already
+    # Create output directory if not exists
     os.makedirs(output_folder, exist_ok=True)
 
-
-    prev_boxes = {}          # last-frame boxes {track_id: (cx,cy,w,h)}
+    prev_boxes = {}               # Last-frame boxes {track_id: (cx, cy, w, h)}
+    prev_movement_history = {}    # Movement history per track_id
     movement_log = []
 
-    # load frame one by one (to avoid memory overflow)
+    # Process each frame one by one
     for idx, img_path in enumerate(file_paths):
 
-        # read image
+        # Read image
         raw = cv2.imread(img_path, cv2.IMREAD_UNCHANGED)
         if raw is None:
             raise IOError(f'Failed to read image: {img_path}')
-
-
+        
+        # Run YOLO tracking
         result = model.track(
             source=normalize(raw),
-            persist=True,   # keep tracker state across successive calls
+            persist=True,   # Keep tracker state across successive calls
             tracker='bytetrack.yaml',
             classes=0,
             device=0
         )[0]
 
-
+        # Apply colormap if specified
         colored = apply_custom_colormap(raw, colormap) if colormap else raw.copy()
 
+        # Extract original filename
+        original_name = os.path.basename(img_path)
+
+        # Process each detected box
         for box in result.boxes:
             if box.id is None:
                 continue
@@ -89,33 +171,53 @@ def eval(
             cy = (y1 + y2) / 2
             w = x2 - x1
             h = y2 - y1
+            curr_area = w * h
 
-            # Motion detection
-            moving = False
+            # Motion detection using position + area change
+            raw_moving = False
+            delta_pos = 0.0
+            delta_area = 0.0
+
             if track_id in prev_boxes:
                 pcx, pcy, pw, ph = prev_boxes[track_id]
-                delta_pos = np.hypot(cx - pcx, cy - pcy)
-                delta_size = abs(w - pw) + abs(h - ph)
+                prev_area = pw * ph
 
-                # Check threshold
-                if delta_pos >= pos_threshold or delta_size >= size_threshold:
-                        moving = True
+                delta_pos = np.hypot(cx - pcx, cy - pcy)
+                delta_area = abs(curr_area - prev_area) / (prev_area + 1e-5)  # Relative change
+
+                # Check thresholds
+                if delta_pos >= pos_threshold or delta_area >= area_threshold:
+                    raw_moving = True
 
             # Update memory
             prev_boxes[track_id] = (cx, cy, w, h)
 
-            # log
+            # Update movement history for debouncing
+            history = prev_movement_history.get(track_id, [])
+            history.append(int(raw_moving))
+            if len(history) > debounce_window:
+                history.pop(0)
+            prev_movement_history[track_id] = history
+
+            # Apply debouncing decision
+            num_moving = sum(history)
+            moving = num_moving >= debounce_required
+
+            # Log movement
             movement_log.append({
                 'frame': idx,
+                'filename': original_name,
                 'track_id': track_id,
-                'moving': int(moving)
+                'moving': int(moving),
+                'delta_pos': delta_pos,
+                'delta_area': delta_area,
+                'debounce_window': history.copy(),
+                'num_moving_in_window': num_moving
             })
 
-            # Draw results 
+            # Draw results
             label = f"Victim {track_id} {'(Moving)' if moving else '(Still)'}"
             color = (0, 255, 0) if moving else (0, 0, 255)
-
-            
 
             cv2.rectangle(colored, (x1, y1), (x2, y2), color, 2)
             cv2.putText(
@@ -128,27 +230,46 @@ def eval(
                 2
             )
         
-        out_path = os.path.join(output_folder, f"{idx}.png")
+        # Save annotated frame using original filename
+        out_path = os.path.join(output_folder, original_name)
         cv2.imwrite(out_path, colored)
 
-
+    # Save movement log to CSV
     csv_path = os.path.join(output_folder, 'movement_log.csv')
-    with open(csv_path, 'w', newline='') as f:
-        writer = csv.DictWriter(f, fieldnames=['frame','track_id','moving'])
-        writer.writeheader()
-        writer.writerows(movement_log)
-    print(f"Movement log saved to {csv_path}")
+    fieldnames = [
+        'frame',
+        'filename',
+        'track_id',
+        'moving',
+        'delta_pos',
+        'delta_area',
+        'debounce_window',
+        'num_moving_in_window'
+    ]
 
-    
+    with open(csv_path, 'w', newline='') as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        for row in movement_log:
+            # Save debounce_window as string
+            row['debounce_window'] = str(row['debounce_window'])
+            writer.writerow(row)
+
+    print(f"Movement log saved to {csv_path}")
+    plot_movement_log(csv_path, output_folder)
+
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Detect and record movement using YOLO tracking')
     parser.add_argument('--folder', required=True, help='Input image directory')
     parser.add_argument('--output', default='output', help='Annotated output directory')
     parser.add_argument('--model', default='yolo11n.pt', help='YOLO weights file')
-    parser.add_argument('--pos_thresh', type=float, default=10.0, help='Pixel threshold for bbox center movement')
-    parser.add_argument('--size_thresh', type=float, default=10.0, help='Pixel threshold for bbox size change')
+    parser.add_argument('--pos_thresh', type=float, default=5.0, help='Pixel threshold for bbox center movement')
+    parser.add_argument('--area_thresh', type=float, default=0.05, help='Relative threshold for bbox area change (e.g., 0.05 = 5%)')
     parser.add_argument('--colormap', default=None, help='Colormap for colorizing thermal and depth images')
+    parser.add_argument('--debounce_window', type=int, default=5, help='Debounce window size (number of frames)')
+    parser.add_argument('--debounce_required', type=int, default=3, help='Number of frames in window required to classify as moving')
 
     args = parser.parse_args()
 
@@ -157,6 +278,13 @@ if __name__ == '__main__':
         output_folder=args.output,
         model_path=args.model,
         pos_threshold=args.pos_thresh,
-        size_threshold=args.size_thresh,
-        colormap=args.colormap
+        area_threshold=args.area_thresh,
+        colormap=args.colormap,
+        debounce_window=args.debounce_window,
+        debounce_required=args.debounce_required
     )
+
+
+
+
+
