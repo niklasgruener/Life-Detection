@@ -1,14 +1,14 @@
 #ignore tmp directories
-masks/
-labels/
+large-scale-movement-detection/masks/
+large-scale-movement-detection/labels/
 
 # ignore pycache
 __pycache__
 
 
 # ignore training data
-yolo/depth/data/
-yolo/thermal/data/
+large-scale-movement-detection/yolo/depth/data/
+large-scale-movement-detection/yolo/thermal/data/
 
 
 
