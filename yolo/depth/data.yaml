@@ -1,0 +1,6 @@
+train: /home/ngruener/thesis/life_detection/yolo/depth/data/images/train
+val: /home/ngruener/thesis/life_detection/yolo/depth/data/images/val
+
+nc: 1
+names: ['person']
+

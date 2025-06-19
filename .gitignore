@@ -1,50 +1,14 @@
-# Ignore the tristar directory
-tristar/
-
-# Ignore the tristar.zip file
-tristar.zip
-
-# Ignore dataset zip file
-datasets.zip
-
-# Ignore dataset folders
-depth/data/
-rgb/data/
+#ignore tmp directories
 masks/
-thermal/data/
 labels/
-labels.old/
-
-# ignore sort library
-sort/
 
 # ignore pycache
 __pycache__
 
 
-# ignore NEW
-NEW/yolo/depth/data/
-NEW/yolo/thermal/data/
+# ignore training data
+yolo/depth/data/
+yolo/thermal/data/
 
-# ignore temp folders 
-2/
-3/
-4/
-5/
-depthTest2/
-depthTest3/
-outRGB/
-outRGB4/
-outRGB5/
-slidesThermalOut/
-slidesThermalOut2/
-slides_thermal/
-test2/
-test3/
-yollo11n.pt
 
-# ignore eval
-scenarios/
-evaluation/
-output/
 
