@@ -9,8 +9,6 @@ from ultralytics import YOLO
 from matplotlib import cm
 
 
-
-
 ##########################################################################################
 # PLOTTING results
 ##########################################################################################
@@ -48,21 +46,19 @@ def plot_movement_log(csv_path, output_folder):
         df_track = df[df['track_id'] == track_id]
 
         plt.figure(figsize=(12, 6))
-        plt.suptitle(f"Movement analysis - Track ID {track_id}", fontsize=16)
+        plt.suptitle(f"Movement analysis - Victim {track_id}", fontsize=16)
 
-        # Subplot 1: delta_pos
+        # Subplot 1: delta_pos (relative now!)
         plt.subplot(3, 1, 1)
         plt.plot(df_track['time_sec'], df_track['delta_pos'], label='delta_pos', color='blue')
-        plt.ylabel('Delta Position (px)')
+        plt.ylabel('Delta Position (relative)')
         plt.grid(True)
-        plt.legend()
 
         # Subplot 2: delta_area
         plt.subplot(3, 1, 2)
         plt.plot(df_track['time_sec'], df_track['delta_area'], label='delta_area', color='orange')
         plt.ylabel('Delta Area (relative)')
         plt.grid(True)
-        plt.legend()
 
         # Subplot 3: moving binary flag
         plt.subplot(3, 1, 3)
@@ -70,7 +66,6 @@ def plot_movement_log(csv_path, output_folder):
         plt.ylabel('Moving (0/1)')
         plt.xlabel('Time (s)')
         plt.grid(True)
-        plt.legend()
 
         # Save plot
         out_plot_path = os.path.join(plots_folder, f"movement_track_{track_id}.png")
@@ -110,7 +105,7 @@ def eval(
     folder_path,
     output_folder,
     model_path='yolo11.pt',
-    pos_threshold=5,
+    pos_threshold=0.05,  # default adjusted for relative delta_pos
     area_threshold=0.05,
     colormap=None,
     debounce_window=3,
@@ -173,7 +168,7 @@ def eval(
             h = y2 - y1
             curr_area = w * h
 
-            # Motion detection using position + area change
+            # Motion detection using relative position + area change
             raw_moving = False
             delta_pos = 0.0
             delta_area = 0.0
@@ -182,8 +177,13 @@ def eval(
                 pcx, pcy, pw, ph = prev_boxes[track_id]
                 prev_area = pw * ph
 
-                delta_pos = np.hypot(cx - pcx, cy - pcy)
-                delta_area = abs(curr_area - prev_area) / (prev_area + 1e-5)  # Relative change
+                # Relative position change
+                delta_pos_raw = np.hypot(cx - pcx, cy - pcy)
+                box_diag = np.hypot(w, h)
+                delta_pos = delta_pos_raw / (box_diag + 1e-5)
+
+                # Area change
+                delta_area = abs(curr_area - prev_area) / (prev_area + 1e-5)
 
                 # Check thresholds
                 if delta_pos >= pos_threshold or delta_area >= area_threshold:
@@ -209,14 +209,14 @@ def eval(
                 'filename': original_name,
                 'track_id': track_id,
                 'moving': int(moving),
-                'delta_pos': delta_pos,
+                'delta_pos': delta_pos,  # now relative!
                 'delta_area': delta_area,
                 'debounce_window': history.copy(),
                 'num_moving_in_window': num_moving
             })
 
             # Draw results
-            label = f"Victim {track_id} {'(Moving)' if moving else '(Still)'}"
+            label = f"Victim {track_id} {'(Moving)' if moving else ''}"
             color = (0, 255, 0) if moving else (0, 0, 255)
 
             cv2.rectangle(colored, (x1, y1), (x2, y2), color, 2)
@@ -259,13 +259,12 @@ def eval(
     plot_movement_log(csv_path, output_folder)
 
 
-
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Detect and record movement using YOLO tracking')
     parser.add_argument('--folder', required=True, help='Input image directory')
     parser.add_argument('--output', default='output', help='Annotated output directory')
     parser.add_argument('--model', default='yolo11n.pt', help='YOLO weights file')
-    parser.add_argument('--pos_thresh', type=float, default=5.0, help='Pixel threshold for bbox center movement')
+    parser.add_argument('--pos_thresh', type=float, default=0.03, help='Relative threshold for bbox center movement (fraction of box diag)')
     parser.add_argument('--area_thresh', type=float, default=0.05, help='Relative threshold for bbox area change (e.g., 0.05 = 5%)')
     parser.add_argument('--colormap', default=None, help='Colormap for colorizing thermal and depth images')
     parser.add_argument('--debounce_window', type=int, default=5, help='Debounce window size (number of frames)')
@@ -283,8 +282,3 @@ if __name__ == '__main__':
         debounce_window=args.debounce_window,
         debounce_required=args.debounce_required
     )
-
-
-
-
-

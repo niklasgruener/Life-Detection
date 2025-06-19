@@ -1,7 +1,0 @@
-train: /home/ngruener/thesis/life_detection/NEW/yolo/thermal/data/images/train
-val: /home/ngruener/thesis/life_detection/NEW/yolo/thermal/data/images/val
-test: /home/ngruener/thesis/life_detection/NEW/yolo/thermal/data/images/test
-
-nc: 1
-names: ['person']
-

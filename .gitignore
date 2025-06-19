@@ -45,5 +45,6 @@ yollo11n.pt
 
 # ignore eval
 scenarios/
-
+evaluation/
+output/
 
