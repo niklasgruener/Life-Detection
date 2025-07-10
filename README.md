@@ -32,7 +32,11 @@ The code supports both **offline evaluation** and **real-time execution** on the
 │       ├── config.yaml
 │       └── utils/
 │
-├── requirements.txt              # Python dependencies
+│── ctcat-live-scripts/
+│   ├── large-scale_movement-detection.py
+│   ├── chest-motion-detection.py
+│   ├── ...utility scripts...
+│
 ├── LICENSE.txt
 └── README.md
 ```
