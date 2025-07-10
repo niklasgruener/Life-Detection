@@ -1,11 +1,11 @@
 # Visual Life Detection using a Compact Tri-Modal Camera Unit - Code Repository
 
-This repository contains the full codebase for the thesis **"Visual Life Detection using a Compact Tri-Modal Camera Unit"**, including detection pipelines, evaluation scrips and real-time integration for:
+This repository contains the full codebase for the thesis **"Multimodal Visual Life Detection using a Compact Tri-Modal Camera Unit"**, including detection pipelines, evaluation scrips and real-time integration for:
 
 - **Chest Motion Detection** – Life Detection via detecting respiratory motion   
 - **Large-Scale Movement Detection** – Life Detection via analysis of victim's movement e.g. walking, crawling, and waving
 
-The code supports both **offline evaluation** and **real-time execution** on the **CTCAT sensor system**.
+The code supports both **offline evaluation** and **real-time execution** on the **Compact Tri-Modal Camera Unit for RGBDT Vision**.
 
 📦 The associated dataset is available on Zenodo:  
 🔗 [https://doi.org/10.5281/zenodo.XXXXXXX](https://doi.org/10.5281/zenodo.XXXXXXX)
@@ -59,32 +59,7 @@ The code supports both **offline evaluation** and **real-time execution** on the
 - Live frame processing using CTCAT sensor
 - Configurable ROI and modality selection
 - Real-time movement detection (large-scale movement-detection)
-- Real-time motion curve visualization (chest motion detection)
-
----
-
-## 🚀 Getting Started
-
-### 1. Clone the repository
-```bash
-git clone https://github.com/nikiblauer/visual-life-detection.git
-cd visual-life-detection
-```
-
-### 2. Install dependencies
-```bash
-pip install -r requirements.txt
-```
-
-### 3. Run offline evaluation
-```bash
-python chest-motion-detection/pipeline.py --scenario CM1_plain_sitting
-```
-
-### 4. Run real-time CTCAT pipeline
-```bash
-python chest-motion-detection/ctcat/live_pipeline.py --config chest-motion-detection/ctcat/config.yaml
-```
+- Real-time motion signal plot and arrow overlay visualization (chest motion detection)
 
 ---
 
@@ -92,12 +67,12 @@ python chest-motion-detection/ctcat/live_pipeline.py --config chest-motion-detec
 
 The dataset used in this repository is publicly available:
 
-📁 **Multimodal Motion Detection Dataset (Chest & Movement)**  
+📁 **Multimodal Motion Detection Dataset (Movement & Chest)**  
 📍 [https://doi.org/10.5281/zenodo.XXXXXXX](https://doi.org/10.5281/zenodo.XXXXXXX)
 
 Includes:
 - Synchronized raw frames (RGB, depth, thermal)
-- Scenario-level evaluation outputs (optical flow, overlays, breathing curves)
+- Scenario-level evaluation outputs (annotations, overlays, breathing curves)
 
 ---
 
