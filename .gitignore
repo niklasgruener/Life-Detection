@@ -4,7 +4,10 @@ large-scale-movement-detection/labels/
 
 # ignore pycache
 __pycache__
-
+ctcat/__pycache__
+ctcat/libtorch
+ctcat/CTCAT_software_RGBDT
+ctcat/venv
 
 # ignore training data
 large-scale-movement-detection/yolo/depth/data/
