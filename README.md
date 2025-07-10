@@ -1,4 +1,4 @@
-# Visual Life Detection using a Compact Tri-Modal Camera Unit - Code Repository
+# Multimodal Visual Life Detection using a Compact Tri-Modal Camera Unit - Code Repository
 
 This repository contains the full codebase for the thesis **"Multimodal Visual Life Detection using a Compact Tri-Modal Camera Unit"**, including detection pipelines, evaluation scrips and real-time integration for:
 
