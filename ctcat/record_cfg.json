@@ -1,0 +1,10 @@
+{
+    "log_directory": "/home/thomas/projects/recording/logs",
+    "drive_label": "recordings",
+    "sequence_length": 1000,
+    "max_frame_duration": 10,
+    "frame_log_interval": 50,
+    "failures_before_reboot": 10,
+    "device": "linux-arm64",
+    "sensor_id": 2
+}
