@@ -7,8 +7,6 @@ This repository contains the full codebase for the thesis **"Multimodal Visual L
 
 The code supports both **offline evaluation** and **real-time execution** on the **[Compact Tri-Modal Camera Unit for RGBDT Vision](https://dl.acm.org/doi/fullHtml/10.1145/3523111.3523116)**.
 
-The associated dataset is available on Zenodo:  
-[https://doi.org/10.5281/zenodo.XXXXXXX](https://doi.org/10.5281/zenodo.XXXXXXX)
 
 ---
 ```
