@@ -2,7 +2,7 @@
 
 This repository contains the full codebase for the thesis **"Multimodal Visual Life Detection using a Compact Tri-Modal Camera Unit"**, including detection pipelines, evaluation scrips and real-time integration for:
 
-- **Chest Motion Detection** – Life Detection via detecting respiratory motion   
+- **Subtle Chest Motion Detection** – Life Detection via detecting respiratory motion   
 - **Large-Scale Movement Detection** – Life Detection via analysis of victim's movement e.g. walking, crawling, and waving
 
 The code supports both **offline evaluation** and **real-time execution** on the **[Compact Tri-Modal Camera Unit for RGBDT Vision](https://dl.acm.org/doi/fullHtml/10.1145/3523111.3523116)**.
@@ -30,15 +30,15 @@ The associated dataset is available on Zenodo:
 
 ## Features
 
-### Chest Motion Detection
-- Uses optical flow (Farneback) on rgb, thermal or depth frames
-- Extracts motion magnitude from chest ROI
-- Visualizes respiratory motion e.g. presence or absence of breathing
-
 ### Large-Scale Movement Detection
 - Evaluates human movement in indoor/outdoor environments
 - Visual overlays of motion 
 - Single-person and multi-person scenarios
+
+### Chest Motion Detection
+- Uses optical flow (Farneback) on rgb, thermal or depth frames
+- Extracts motion magnitude from chest ROI
+- Visualizes respiratory motion e.g. presence or absence of breathing
 
 ### Real-Time CTCAT Integration
 - Live frame processing using CTCAT sensor
