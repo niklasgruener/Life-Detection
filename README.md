@@ -11,31 +11,16 @@ The associated dataset is available on Zenodo:
 [https://doi.org/10.5281/zenodo.XXXXXXX](https://doi.org/10.5281/zenodo.XXXXXXX)
 
 ---
-
-## Repository Structure
-
 ```
 .
-├── chest-motion-detection/
-│   ├── pipeline.py               # Offline evaluation pipeline
-│   ├── evaluation.py             # Breathing detection and visualization
-│   └── ctcat/
-│       ├── live_pipeline.py      # Real-time processing with CTCAT
-│       ├── config.yaml           # Config: modalities, ROI, thresholds
-│       └── utils/                # CTCAT-specific helper functions
-│
 ├── large-scale-movement-detection/
-│   ├── pipeline.py
-│   ├── evaluation.py
-│   └── ctcat/
-│       ├── live_pipeline.py
-│       ├── config.yaml
-│       └── utils/
+│   └── YOLO-based object detection runs on thermal and depth data, final trained models, and offline evaluation scripts, ...
 │
-│── ctcat-live-scripts/
-│   ├── large-scale_movement-detection.py
-│   ├── chest-motion-detection.py
-│   ├── ...utility scripts...
+├── chest-motion-detection/
+│   └── Offline evaluation scripts for chest motion detection
+│
+├── ctcat-live-scripts/
+│   └── Sensor-specific configuration files, real-time pipelines for chest motion and large-scale movement detection, and utility scripts, ...
 │
 ├── LICENSE.txt
 └── README.md
