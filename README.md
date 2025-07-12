@@ -37,7 +37,7 @@ The associated dataset is available on Zenodo:
 
 ### Chest Motion Detection
 - Uses optical flow (Farneback) on rgb, thermal or depth frames
-- Extracts motion magnitude from chest ROI
+- Extracts motion magnitude from flow vectors and computes signal
 - Visualizes respiratory motion e.g. presence or absence of breathing
 
 ### Real-Time CTCAT Integration
@@ -58,18 +58,6 @@ The dataset used in this repository is publicly available:
 Includes:
 - Synchronized raw frames (RGB, depth, thermal)
 - Scenario-level evaluation outputs (annotations, overlays, breathing curves)
-
----
-
-## License
-
-This project is licensed under the **Creative Commons Attribution 4.0 International License (CC BY 4.0)**.
-
-You are free to:
-- Share — copy and redistribute the material in any medium or format
-- Adapt — remix, transform, and build upon the material for any purpose, even commercially
-
-With the requirement that you provide appropriate credit. See `LICENSE.txt` or [creativecommons.org/licenses/by/4.0](https://creativecommons.org/licenses/by/4.0/) for full terms.
 
 ---
 
