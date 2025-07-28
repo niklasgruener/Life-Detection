@@ -2,8 +2,10 @@
 
 This repository contains the full codebase for the thesis **"Multimodal Visual Life Detection using a Compact Tri-Modal Camera Unit"**, including detection pipelines, evaluation scrips and real-time integration for:
 
-- **Subtle Chest Motion Detection** – Life Detection via detecting respiratory motion   
+- **Subtle Chest Motion Detection** – Life Detection via detecting respiratory motion
+ 
 - **Large-Scale Movement Detection** – Life Detection via analysis of victim's movement e.g. walking, crawling, and waving
+![showcase_large](https://github.com/user-attachments/assets/e983330a-e3a7-43e1-8f32-7e72f01d20d2)
 
 The code supports both **offline evaluation** and **real-time execution** on the **[Compact Tri-Modal Camera Unit for RGBDT Vision](https://dl.acm.org/doi/fullHtml/10.1145/3523111.3523116)**.
 
