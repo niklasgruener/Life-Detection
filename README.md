@@ -10,6 +10,9 @@ This repository contains the full codebase for the thesis **"Multimodal Visual L
 
 The code supports both **offline evaluation** and **real-time execution** on the **[Compact Tri-Modal Camera Unit for RGBDT Vision](https://dl.acm.org/doi/fullHtml/10.1145/3523111.3523116)**.
 
+Link to the full paper: [Bachelorthesis.pdf](https://github.com/user-attachments/files/21470510/Bachelorthesis.pdf)
+
+
 
 ---
 ```
