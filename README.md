@@ -51,18 +51,6 @@ The code supports both **offline evaluation** and **real-time execution** on the
 
 ---
 
-## Dataset
-
-The dataset used in this repository is publicly available:
-
- **Multimodal Motion Detection Dataset (Movement & Chest)**  
- [https://doi.org/10.5281/zenodo.XXXXXXX](https://doi.org/10.5281/zenodo.XXXXXXX)
-
-Includes:
-- Synchronized raw frames (RGB, depth, thermal)
-- Scenario-level evaluation outputs (annotations, overlays, breathing curves)
-
----
 
 ## Author
 
