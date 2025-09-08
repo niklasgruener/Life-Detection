@@ -1,6 +1,6 @@
 # Multimodal Visual Life Detection using a Compact Tri-Modal Camera Unit - Code Repository
 
-This repository contains the full codebase for my bachelor thesis **"Multimodal Visual Life Detection using a Compact Tri-Modal Camera Unit ([Thesis Paper](https://www.google.at))"**, including detection pipelines, evaluation scrips and real-time integration for:
+This repository contains the full codebase for my bachelor thesis **"[Multimodal Visual Life Detection using a Compact Tri-Modal Camera Unit](www.google.com)"**, including detection pipelines, evaluation scrips and real-time integration for:
 
 - **Subtle Chest Motion Detection** – Life Detection via detecting respiratory motion
  ![showcase_chest](https://github.com/user-attachments/assets/56177db7-20fc-4b84-804a-060446be3fab)
