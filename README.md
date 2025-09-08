@@ -26,6 +26,7 @@ The code supports both **offline evaluation** and **real-time execution** on the
 ├── ctcat-live-scripts/
 │   └── Sensor-specific configuration files, real-time pipelines for chest motion and large-scale movement detection, and utility scripts, ...
 │
+├── Bachelor thesis.pdf
 ├── LICENSE.txt
 └── README.md
 ```
